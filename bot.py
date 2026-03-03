@@ -60,11 +60,15 @@ async def airtable_request(method: str, url: str, *, params=None, json_body=None
 
 # ---------------- Helpers ----------------
 def admin_only(func):
-    async def wrapper(callback_query: types.CallbackQuery, *args, **kwargs):
+    async def wrapper(*args, **kwargs):
+        callback_query = args[0]
+
         if callback_query.from_user.id != ADMIN_ID:
-            await bot.answer_callback_query(callback_query.id, "⛔ Нет прав")
+            await callback_query.answer("⛔ Нет прав")
             return
-        return await func(callback_query, *args, **kwargs)
+
+        return await func(*args, **kwargs)
+
     return wrapper
 
 async def safe_send(send_coro):
