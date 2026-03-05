@@ -542,7 +542,7 @@ async def run_all_bots() -> None:
         # aiogram 2.x: Dispatcher.start_polling is async
         async def _runner(_dp: Dispatcher, _name: str):
             logger.info("[%s] Starting polling...", _name)
-            await _dp.start_polling(skip_updates=True)
+            await _dp.start_polling()
 
         tasks.append(asyncio.create_task(_runner(dp, name)))
         logger.info("[%s] Started", name)
